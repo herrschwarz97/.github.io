@@ -1,0 +1,16 @@
+TYPE: mc
+TAG: Allgemeinwissen – Flaggen
+Q: Welche Farben hat die Flagge Deutschlands? (Mehrfachauswahl)
+*OPT: Schwarz
+*OPT: Rot
+*OPT: Gold
+OPT: Blau
+OPT: Grün
+OPT: Weiß
+POINTS: 1
+
+TYPE: open
+TAG: Allgemeinwissen – Zeit
+Q: Wie viele Tage hat eine Woche?
+ANSWER: 7
+POINTS: 1

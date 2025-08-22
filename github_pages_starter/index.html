@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meine Apps & Spiele</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f6f9ff;--card:#fff;--txt:#0f172a;--muted:#475569;--accent:#ef4444;}
+    *{box-sizing:border-box} body{margin:0;font-family:Rubik,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt)}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    h1{font-size:40px;margin:6px 0 16px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .card{background:var(--card);border-radius:16px;box-shadow:0 10px 30px #0001;padding:18px;display:flex;flex-direction:column;gap:8px}
+    .card h3{margin:0 0 4px;font-size:22px}
+    .card p{margin:0;color:var(--muted);font-size:14px;min-height:42px}
+    .card a{margin-top:auto;display:inline-block;text-decoration:none;background:var(--accent);color:#fff;padding:10px 14px;border-radius:999px}
+    footer{margin-top:24px;color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Meine Apps & Spiele</h1>
+    <div class="grid">
+      <div class="card">
+        <h3>Pub-Quiz</h3>
+        <p>Quiz mit Einzel- & Team-Modus, TXT-Import, Zwischenstand & Konfetti.</p>
+        <a href="apps/pub-quiz/">Starten</a>
+      </div>
+    </div>
+    <footer>
+      Tipp: Du kannst Fragen-Dateien (.txt) hier hosten und direkt im Spiel laden (Datei-Auswahl).
+    </footer>
+  </div>
+</body>
+</html>
