@@ -1,0 +1,32 @@
+[
+  {
+    "slug": "pub-quiz",
+    "title": "Pub-Quiz",
+    "path": "apps/pub-quiz/",
+    "desc": "Klassisches Quiz mit mehreren Fragetypen.",
+    "tags": ["Quiz", "Schule"],
+    "new": true,
+    "newtab": false,
+    "img": "images/pub-quiz-cover.png"
+  },
+  {
+    "slug": "himym-quiz",
+    "title": "HIMYM-Quiz",
+    "path": "apps/himym-quiz/",
+    "desc": "Wie gut kennst du How I Met Your Mother?",
+    "tags": ["Quiz", "Serie", "Freizeit"],
+    "new": false,
+    "newtab": true,
+    "img": "images/himym-cover.png"
+  },
+  {
+    "slug": "herr-der-ringe",
+    "title": "Herr der Ringe-Quiz",
+    "path": "apps/herr-der-ringe/",
+    "desc": "Mittelerde wartet – kennst du alle Fakten?",
+    "tags": ["Quiz", "Fantasy"],
+    "new": false,
+    "newtab": true,
+    "img": "images/lotr-cover.png"
+  }
+]
