@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Herr Schwarz – Apps & Spiele</title>
+
+  <!-- Google Font (single external dep.) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- PWA-ish meta (Bonus) -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Herr Schwarz – Apps">
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <style>
+    :root {
+      /* Light theme */
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #2563eb;
+      --chip-bg: #e2e8f0;
+      --chip-text: #0f172a;
+      --card-shadow: 0 6px 20px rgba(2, 6, 23, .06);
+      --border: #e5e7eb;
+      --badge-new-bg: #dc2626;
+      --badge-new-text: #ffffff;
+      --focus: #94a3b8;
+    }
+    [data-theme="dark"] {
+      --bg: #0b1020;
+      --surface: #0f172a;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --primary: #60a5fa;
+      --chip-bg: #1f2937;
+      --chip-text: #e5e7eb;
+      --card-shadow: 0 6px 24px rgba(0,0,0,.45);
+      --border: #1f2937;
+      --badge-new-bg: #ef4444;
+      --badge-new-text: #fff;
+      --focus: #64748b;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+      line-height: 1.5;
+    }
+
+    header {
+      max-width: 1100px;
+      margin: 32px auto 8px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-emoji {
+      font-size: 28px;
+    }
+    h1 {
+      font-size: clamp(20px, 3vw, 28px);
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--card-shadow);
+    }
+    .btn:hover { filter: brightness(0.98); }
+    .btn:focus { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 8px 16px 40px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1 1 260px;
+      min-width: 240px;
+    }
+    .search-input {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 12px 40px 12px 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      box-shadow: var(--card-shadow);
+    }
+    .search-kbd {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 12px;
+      user-select: none;
+    }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .chip {
+      border: 1px solid var(--border);
+      background: var(--chip-bg);
+      color: var(--chip-text);
+      padding: 8px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      user-select: none;
+    }
+    .chip[aria-pressed="true"] {
+      background: var(--primary);
+      color: white;
+      border-color: transparent;
+    }
+    .chip:focus { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 16px;
+    }
+    @media (min-width: 560px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 900px) {
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 180px;
+    }
+    .card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: block;
+    }
+    .card-body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: space-between;
+    }
+    .title-text {
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+    .badge-new {
+      background: var(--badge-new-bg);
+      color: var(--badge-new-text);
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+    .card-desc {
+      color: var(--muted);
+      font-size: 14px;
+      flex: 1;
+    }
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .tag {
+      font-size: 12px;
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 999px;
+      color: var(--muted);
+    }
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 6px;
+    }
+    .link {
+      text-decoration: none;
+      color: white;
+      background: var(--primary);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      display: inline-block;
+    }
+    .link.secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+      white-space: nowrap;
+    }
+    .empty {
+      border: 1px dashed var(--border);
+      background: transparent;
+      padding: 20px;
+      border-radius: 16px;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand" aria-label="Portal">
+      <span class="brand-emoji" aria-hidden="true">🎮</span>
+      <h1>Apps & Spiele</h1>
+    </div>
+    <div class="toolbar">
+      <button id="randomBtn" class="btn" aria-label="Zufälliges Spiel öffnen">🎲 Zufälliges Spiel</button>
+      <button id="themeToggle" class="btn" aria-label="Dark Mode umschalten" title="Dark Mode (🌗)">🌗</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="filters" aria-label="Filterbereich">
+      <div class="search-wrap">
+        <label class="sr-only" for="search">Suche</label>
+        <input id="search" class="search-input" type="search" placeholder="Suche (Tippe / für Fokus) …" aria-label="Suche nach Titel, Beschreibung oder Tags" />
+        <span aria-hidden="true" class="search-kbd">/</span>
+      </div>
+      <div id="chips" class="chips" role="toolbar" aria-label="Tag-Filter"></div>
+    </section>
+
+    <section aria-live="polite" aria-atomic="true" aria-relevant="all">
+      <div id="resultsCount" class="sr-only" aria-live="polite"></div>
+      <div id="grid" class="grid" aria-label="Ergebnisliste"></div>
+    </section>
+
+    <p class="empty" id="emptyState" hidden>Keine Treffer. Passe Suche oder Filter an.</p>
+  </main>
+
+  <template id="card-tpl">
+    <article class="card">
+      <a class="img-link" href="#" target="_self" aria-label="App öffnen (Bild)">
+        <img alt="" />
+      </a>
+      <div class="card-body">
+        <div class="card-title">
+          <span class="title-text"></span>
+          <span class="badge-new" hidden>Neu</span>
+        </div>
+        <div class="card-desc"></div>
+        <div class="card-tags"></div>
+        <div class="card-actions">
+          <a class="link open-link" href="#" target="_self" rel="noopener">Öffnen</a>
+          <a class="link secondary open-newtab" href="#" target="_blank" rel="noopener" title="In neuem Tab öffnen">Neuer Tab</a>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script>
+    // Theme handling
+    const rootEl = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const storedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    rootEl.setAttribute('data-theme', storedTheme);
+    themeToggle.addEventListener('click', () => {
+      const cur = rootEl.getAttribute('data-theme');
+      const next = cur === 'dark' ? 'light' : 'dark';
+      rootEl.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+
+    // Search focus with '/'
+    const searchInput = document.getElementById('search');
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+
+    // State
+    let allGames = [];
+    let activeTags = new Set();
+
+    const grid = document.getElementById('grid');
+    const chips = document.getElementById('chips');
+    const resultsCount = document.getElementById('resultsCount');
+    const emptyState = document.getElementById('emptyState');
+    const randomBtn = document.getElementById('randomBtn');
+
+    async function loadGames() {
+      try {
+        const res = await fetch('games.json', {cache: 'no-store'});
+        const data = await res.json();
+        allGames = Array.isArray(data) ? data : [];
+        renderChips();
+        applyFilters();
+      } catch (err) {
+        console.error(err);
+        grid.innerHTML = '<p class="empty">Fehler beim Laden der games.json</p>';
+      }
+    }
+
+    function uniqueTags() {
+      const set = new Set();
+      for (const g of allGames) {
+        (g.tags || []).forEach(t => set.add(t));
+      }
+      return Array.from(set).sort((a,b)=>a.localeCompare(b,'de'));
+    }
+
+    function renderChips() {
+      chips.innerHTML = '';
+      const tags = uniqueTags();
+      if (!tags.length) return;
+      const frag = document.createDocumentFragment();
+      for (const tag of tags) {
+        const btn = document.createElement('button');
+        btn.className = 'chip';
+        btn.type = 'button';
+        btn.setAttribute('role', 'button');
+        btn.setAttribute('aria-pressed', 'false');
+        btn.textContent = tag;
+        btn.addEventListener('click', () => {
+          if (activeTags.has(tag)) activeTags.delete(tag); else activeTags.add(tag);
+          btn.setAttribute('aria-pressed', activeTags.has(tag) ? 'true' : 'false');
+          applyFilters();
+        });
+        frag.appendChild(btn);
+      }
+      chips.appendChild(frag);
+    }
+
+    function matchQuery(game, q) {
+      if (!q) return true;
+      const hay = (game.title + ' ' + (game.desc||'') + ' ' + (game.tags||[]).join(' ')).toLowerCase();
+      return hay.includes(q.toLowerCase());
+    }
+
+    function matchTags(game) {
+      if (activeTags.size === 0) return true;
+      const t = new Set(game.tags || []);
+      for (const tag of activeTags) {
+        if (!t.has(tag)) return false;
+      }
+      return true;
+    }
+
+    function applyFilters() {
+      const q = searchInput.value.trim();
+      const filtered = allGames.filter(g => matchQuery(g, q) && matchTags(g));
+      renderGrid(filtered);
+      resultsCount.textContent = `${filtered.length} Ergebnis${filtered.length === 1 ? '' : 'se'}`;
+      emptyState.hidden = filtered.length > 0;
+    }
+
+    function createCard(game) {
+      const tpl = document.getElementById('card-tpl');
+      const node = tpl.content.cloneNode(true);
+      const imgLink = node.querySelector('.img-link');
+      const img = node.querySelector('img');
+      const title = node.querySelector('.title-text');
+      const desc = node.querySelector('.card-desc');
+      const badgeNew = node.querySelector('.badge-new');
+      const tagsWrap = node.querySelector('.card-tags');
+      const openLink = node.querySelector('.open-link');
+      const openNew = node.querySelector('.open-newtab');
+
+      const href = game.path || '#';
+      const targetSelf = game.newtab ? '_blank' : '_self';
+      imgLink.href = href;
+      imgLink.target = targetSelf;
+      openLink.href = href;
+      openLink.target = targetSelf;
+      openNew.href = href;
+
+      title.textContent = game.title || game.slug;
+      desc.textContent = game.desc || '';
+
+      if (game.new) { badgeNew.hidden = false; }
+      if (Array.isArray(game.tags)) {
+        for (const t of game.tags) {
+          const span = document.createElement('span');
+          span.className = 'tag';
+          span.textContent = t;
+          tagsWrap.appendChild(span);
+        }
+      }
+
+      if (game.img) {
+        img.src = game.img;
+        img.alt = game.title ? `Vorschaubild zu ${game.title}` : 'Vorschaubild';
+      } else {
+        // No image: hide image link
+        imgLink.remove();
+      }
+
+      // If newtab is false, hide "Neuer Tab"-button to keep UI clean
+      if (!game.newtab) {
+        openNew.style.display = 'none';
+      }
+
+      return node;
+    }
+
+    function renderGrid(list) {
+      grid.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      list.forEach(game => frag.appendChild(createCard(game)));
+      grid.appendChild(frag);
+    }
+
+    // Events
+    searchInput.addEventListener('input', applyFilters);
+
+    randomBtn.addEventListener('click', () => {
+      const q = searchInput.value.trim();
+      const list = allGames.filter(g => matchQuery(g, q) && matchTags(g));
+      if (!list.length) return;
+      const pick = list[Math.floor(Math.random() * list.length)];
+      const url = pick.path || '#';
+      if (pick.newtab) window.open(url, '_blank'); else window.location.href = url;
+    });
+
+    // Init
+    loadGames();
+  </script>
+</body>
+</html>
